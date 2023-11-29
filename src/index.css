@@ -1,4 +1,4 @@
-#wisp-main {
+.wisp-main {
 	--theme: #f5bd00;
 	--theme-light: #ffe799;
 	--color: #000;
@@ -15,11 +15,11 @@
 	--semi-transparent: #fffffff2;
 }
 
-#wisp-main a,
-#wisp-main a:visited {
+.wisp-main a,
+.wisp-main a:visited {
 	color: var(--link);
 }
 
-#wisp-main * {
+.wisp-main * {
 	box-sizing: border-box;
 }
