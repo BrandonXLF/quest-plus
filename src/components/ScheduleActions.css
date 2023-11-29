@@ -1,19 +1,7 @@
-.schedule-actions-container {
-	display: flex;
-	margin-bottom: 1em;
-}
-
-.schedule-actions {
+.wisp-header {
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: center;
-	gap: 0.75em;
-	flex: 1;
-	width: 0;
-}
-
-@media (min-width: 600px) {
-	.schedule-actions {
-		justify-content: left;
-	}
+	justify-content: left;
+	align-items: center;
+	gap: 0.5em;
 }

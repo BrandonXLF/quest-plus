@@ -6,24 +6,10 @@
 	flex-direction: column;
 }
 
-.loading {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 175%;
-	position: absolute;
-	z-index: 4;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	background: var(--overlay);
-	backdrop-filter: blur(2px);
-}
-
 .schedule {
 	overscroll-behavior: none;
-	background: center / cover url(/logo.svg);
+	background: center / cover
+		url('chrome-extension://__MSG_@@extension_id__/assets/logo.svg');
 }
 
 @media not print {
@@ -38,7 +24,7 @@
 	grid-template-rows: min-content auto;
 	min-width: 50em;
 	font-size: 11px;
-	background-color: var(--part-transparent);
+	background-color: var(--semi-transparent);
 }
 
 .mini .columns {
@@ -99,11 +85,4 @@
 
 .mini .time-column {
 	display: none;
-}
-
-@media (min-width: 600px) {
-	.schedule-container {
-		height: unset;
-		width: 0;
-	}
 }

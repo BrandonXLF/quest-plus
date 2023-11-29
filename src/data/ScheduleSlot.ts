@@ -20,11 +20,6 @@ type ScheduleSlot = {
 			type: SlotType.Class;
 			classSlots: ClassSlot[];
 	  }
-	| {
-			type: SlotType.Class;
-			classType: string;
-			content: ReactNode;
-	  }
 );
 
 export default ScheduleSlot;

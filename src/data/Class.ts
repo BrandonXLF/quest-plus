@@ -1,25 +1,39 @@
 import ClassSlot from './ClassSlot';
-import Course from './Course';
+import SupplementaryParser from './SupplementaryParser';
+import { SupplementaryInfo } from './SupplementryInfo';
 
 export default class Class {
-	constructor(
-		public course: Course,
-		public number: string,
-		public type: string,
-		public sectionNumber: string,
-		public campus: string,
-		public enrolled: number,
-		public capacity: number,
-		private instructorRaw: string,
-		public slots: ClassSlot[] = []
-	) {}
+	supplementaryInfo: Promise<SupplementaryInfo>;
 
-	public get section() {
-		return `${this.type} ${this.sectionNumber}`;
+	constructor(
+		public subject: string,
+		public courseNumber: string,
+		public section: string,
+		public classNumber: string,
+		public type: string,
+		public desc: string,
+		public instructor: string,
+		public cart: boolean,
+		public slots: ClassSlot[] = []
+	) {
+		this.supplementaryInfo = SupplementaryParser.getSupplementaryInfo(
+			'1241',
+			subject,
+			courseNumber,
+			classNumber
+		);
+
+		setInterval(() => {
+			instructor += 'A';
+		}, 2000);
+	}
+
+	public get code() {
+		return `${this.subject} ${this.courseNumber}`;
 	}
 
 	private get instructorParts() {
-		return this.instructorRaw.split(',', 2);
+		return this.instructor.split(',', 2);
 	}
 
 	public get instructorLast() {
@@ -31,13 +45,28 @@ export default class Class {
 	}
 
 	public get instructorLink() {
-		return `/professor/${this.instructorFull
-			.toLowerCase()
-			.replace(/ /g, '_')
-			.replace(/[^a-z_]/g, '')}`;
+		return `/explore?q=${encodeURIComponent(
+			this.instructorFull.toLowerCase().replace(/[^a-z ]/g, '')
+		)}`;
 	}
 
-	public get enrolledString() {
-		return `${this.enrolled}/${this.capacity}`;
+	async getEnrolledString() {
+		const info = await this.supplementaryInfo;
+
+		return `${info.enrolled}/${info.capacity}`;
+	}
+
+	async getType() {
+		if (this.type) return this.type;
+
+		const info = await this.supplementaryInfo;
+
+		return info.type;
+	}
+
+	async getDatesForSlot(slot: ClassSlot) {
+		const index = this.slots.indexOf(slot);
+
+		return (await this.supplementaryInfo).slotDates[index];
 	}
 }

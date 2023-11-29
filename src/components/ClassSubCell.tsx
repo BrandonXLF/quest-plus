@@ -1,38 +1,46 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './ClassSubCell.css';
 import ClassSlot from '../data/ClassSlot';
-import CloseIcon from '../icons/CloseIcon';
 import CollapseIcon from '../icons/CollapseIcon';
 import ExpandIcon from '../icons/ExpandIcon';
 import BorderlessButton from './BorderlessButton';
 import OverlapIcon from '../icons/OverlapIcon';
 import UWFlowLink from './UWFlowLink';
+import AsyncContent from './AsyncContent';
+import CartIcon from '../icons/CartIcon';
 
 export default function ClassSubCell({
 	classSlot,
-	onRemoved,
-	onCourseClicked,
 	expandable,
 	siblings = []
-}: {
+}: Readonly<{
 	classSlot: ClassSlot;
-	onRemoved: () => void;
-	onCourseClicked: () => void;
 	expandable?: boolean;
 	siblings?: ClassSlot[];
-}) {
+}>) {
 	const [expanded, setExpanded] = useState(false);
+	const [overlaps, setOverlaps] = useState(false);
 
-	const overlaps = useMemo(
-		() =>
-			siblings.some(
-				sibling =>
-					classSlot !== sibling &&
-					classSlot.endDate >= sibling.startDate &&
-					classSlot.startDate <= sibling.endDate
-			),
-		[classSlot, siblings]
-	);
+	useEffect(() => {
+		(async () => {
+			const dates = [];
+
+			for (const sibling of siblings) {
+				if (sibling === classSlot) continue;
+
+				dates.push(await sibling.dates);
+			}
+
+			const thisDates = await classSlot.dates;
+
+			setOverlaps(
+				dates.some(
+					datePair =>
+						thisDates.end >= datePair.start && thisDates.start <= datePair.end
+				)
+			);
+		})();
+	}, [classSlot, siblings]);
 
 	return (
 		<>
@@ -42,19 +50,28 @@ export default function ClassSubCell({
 						<OverlapIcon />{' '}
 					</>
 				)}
-				<a
-					href=""
-					className="course-code"
-					onClick={e => {
-						e.preventDefault();
-						e.stopPropagation();
-						onCourseClicked();
-					}}
+				{classSlot.classInfo.cart && (
+					<>
+						<CartIcon />{' '}
+					</>
+				)}
+				<UWFlowLink
+					path={`/course/${classSlot.classInfo.code
+						.toLowerCase()
+						.replace(/ /g, '')}`}
 				>
-					{classSlot.classInfo.course.code}
-				</a>{' '}
+					{classSlot.classInfo.code}
+				</UWFlowLink>{' '}
 				<span>{classSlot.classInfo.section}</span>{' '}
-				<span>{classSlot.classInfo.number}</span>
+				<span>
+					{
+						<AsyncContent
+							load={() => classSlot.classInfo.getType()}
+							deps={[classSlot.classInfo]}
+						/>
+					}
+				</span>{' '}
+				<span>({classSlot.classInfo.classNumber})</span>
 				{expandable && (
 					<>
 						{' '}
@@ -62,10 +79,7 @@ export default function ClassSubCell({
 							{expanded ? <CollapseIcon /> : <ExpandIcon />}
 						</BorderlessButton>
 					</>
-				)}{' '}
-				<BorderlessButton onClick={onRemoved}>
-					<CloseIcon />
-				</BorderlessButton>
+				)}
 			</div>
 			{(!expandable || expanded) && (
 				<div className="expanded-content">
@@ -74,10 +88,22 @@ export default function ClassSubCell({
 						<UWFlowLink path={classSlot.classInfo.instructorLink}>
 							{classSlot.classInfo.instructorLast}
 						</UWFlowLink>{' '}
-						<span>{classSlot.classInfo.enrolledString}</span>
+						<span>
+							<AsyncContent
+								load={() => classSlot.classInfo.getEnrolledString()}
+								deps={[classSlot.classInfo]}
+							/>
+						</span>
 					</div>
 					<div>
-						<span>{classSlot.timeStr}</span> <span>{classSlot.dateStr}</span>
+						<span>{classSlot.timeStr}</span>{' '}
+						<span>
+							{' '}
+							<AsyncContent
+								load={() => classSlot.getDateStr()}
+								deps={[classSlot]}
+							/>
+						</span>
 					</div>
 				</div>
 			)}

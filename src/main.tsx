@@ -2,9 +2,28 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/App.tsx';
 import './index.css';
+import { addFlowLinks } from './addFlowLinks.ts';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-	<React.StrictMode>
-		<App />
-	</React.StrictMode>
-);
+function onPageLoaded() {
+	addFlowLinks();
+
+	document.getElementById('wisp-timetable-root')?.remove();
+
+	const root = document.createElement('div');
+	root.id = 'wisp-timetable-root';
+	document.getElementById('win0divDERIVED_REGFRM1_GROUP6')?.prepend(root);
+
+	ReactDOM.createRoot(root).render(
+		<React.StrictMode>
+			<App />
+		</React.StrictMode>
+	);
+}
+
+const observer = new MutationObserver(onPageLoaded);
+
+observer.observe(document.body, {
+	childList: true
+});
+
+onPageLoaded();

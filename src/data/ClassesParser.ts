@@ -13,7 +13,11 @@ export default abstract class UWParser {
 		path: string,
 		tableNumbers: number | number[]
 	) {
-		const res = await fetch(`uw-classes/?path=${encodeURIComponent(path)}`);
+		const res = await fetch(
+			`https://www.brandonfowler.me/wisp/uw-classes/?path=${encodeURIComponent(
+				path
+			)}`
+		);
 
 		if (!res.ok) throw new TypeError(res.statusText);
 

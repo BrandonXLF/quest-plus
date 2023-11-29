@@ -1,62 +1,56 @@
 import './ScheduleActions.css';
-import ArrayWithSelected from '../data/ArrayWithSelected';
-import StoredClass from '../data/StoredClass';
-import AddIcon from '../icons/AddIcon';
-import CloneIcon from '../icons/CloneIcon';
-import CloseIcon from '../icons/CloseIcon';
-import DeleteIcon from '../icons/DeleteIcon';
-import ImportIcon from '../icons/ImportIcon';
 import MaximizeIcon from '../icons/MaximizeIcon';
 import MinimizeIcon from '../icons/MinimizeIcon';
 import BorderlessButton from './BorderlessButton';
-import IndexSelector from './IndexSelector';
+import IconLink from './IconLink';
+import GitHubIcon from '../icons/GitHubIcon';
+import CollapseIcon from '../icons/CollapseIcon';
+import ExpandIcon from '../icons/ExpandIcon';
+import Title from './Title';
 
 export default function ScheduleActions({
-	classLists,
-	onClassListSelected,
-	onClassListAdded,
-	onSelectedClassListRemoved,
-	importerShown,
-	onImporterShownChanged,
+	shown,
+	onShownChanged,
 	miniMode,
 	onMiniModeChanged
-}: {
-	classLists: ArrayWithSelected<StoredClass[]>;
-	onClassListSelected: (index: number) => void;
-	onClassListAdded: (clone?: boolean) => void;
-	onSelectedClassListRemoved: () => void;
-	importerShown: boolean;
-	onImporterShownChanged: (shown: boolean) => void;
+}: Readonly<{
+	shown: boolean;
+	onShownChanged: (shown: boolean) => void;
 	miniMode: boolean;
 	onMiniModeChanged: (miniMode: boolean) => void;
-}) {
+}>) {
 	return (
-		<div className="schedule-actions-container">
-			<div className="schedule-actions">
-				<IndexSelector
-					items={classLists}
-					selectedIndex={classLists.selectedIndex}
-					onIndexSelected={onClassListSelected}
-				/>
-				<BorderlessButton onClick={() => onClassListAdded()}>
-					<AddIcon />
-				</BorderlessButton>
-				<BorderlessButton onClick={() => onClassListAdded(true)}>
-					<CloneIcon />
-				</BorderlessButton>
-				<BorderlessButton
-					onClick={() => onImporterShownChanged(!importerShown)}
-				>
-					{importerShown ? <CloseIcon /> : <ImportIcon />}
-				</BorderlessButton>
-				<span>|</span>
+		<header className="wisp-header">
+			<BorderlessButton onClick={() => onShownChanged(!shown)}>
+				{shown ? <CollapseIcon /> : <ExpandIcon />}
+			</BorderlessButton>
+			<Title />
+			{shown && (
 				<BorderlessButton onClick={() => onMiniModeChanged(!miniMode)}>
 					{miniMode ? <MaximizeIcon /> : <MinimizeIcon />}
 				</BorderlessButton>
-				<BorderlessButton onClick={onSelectedClassListRemoved}>
-					<DeleteIcon />
-				</BorderlessButton>
+			)}
+			<div>
+				Created by{' '}
+				<a
+					target="_blank"
+					href="https://www.brandonfowler.me/"
+					rel="noreferrer"
+				>
+					Brandon Fowler
+				</a>
 			</div>
-		</div>
+			<div>
+				{' '}
+				<IconLink
+					target="_blank"
+					href="https://github.com/BrandonXLF/wisp"
+					rel="noreferrer"
+					icon={<GitHubIcon />}
+				>
+					GitHub
+				</IconLink>
+			</div>
+		</header>
 	);
 }

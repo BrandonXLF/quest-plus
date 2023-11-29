@@ -23,35 +23,6 @@ export default class Schedule {
 
 	constructor(private classes: Class[]) {}
 
-	addDefaultSlots() {
-		this.columns[0].push({
-			type: SlotType.Class,
-			classType: 'GET_STARTED',
-			start: 10 * 60,
-			end: 11 * 60 - 10,
-			content: <div>Your class here</div>,
-			key: 'GET_STARTED_1'
-		});
-
-		this.columns[2].push({
-			type: SlotType.Class,
-			classType: 'GET_STARTED',
-			start: 11 * 60,
-			end: 12.5 * 60,
-			content: <div>And another</div>,
-			key: 'GET_STARTED_2'
-		});
-
-		this.columns[2].push({
-			type: SlotType.Class,
-			classType: 'GET_STARTED',
-			start: 13 * 60,
-			end: 14 * 60,
-			content: <div>And one more here</div>,
-			key: 'GET_STARTED_3'
-		});
-	}
-
 	createColumns() {
 		this.columns = Schedule.days.map(() => []);
 
@@ -65,13 +36,11 @@ export default class Schedule {
 						start: classSlot.start.index,
 						end: classSlot.end.index,
 						classSlots: [classSlot],
-						key: `${classInfo.number}/${i}/${j}`
+						key: `${classInfo.courseNumber}/${i}/${j}`
 					});
 				});
 			});
 		});
-
-		if (!this.hasClassSlots) this.addDefaultSlots();
 	}
 
 	processClassOverlap(

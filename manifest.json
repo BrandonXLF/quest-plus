@@ -1,0 +1,26 @@
+{
+	"name": "Quest + UW Flow",
+	"version": "1.0.0",
+	"description": "Adds links to UW Flow to Waterloo Quest.",
+	"permissions": ["activeTab", "scripting", "storage"],
+	"host_permissions": ["https://quest.pecs.uwaterloo.ca/"],
+	"icons": {
+		"128": "assets/logo.png"
+	},
+	"content_scripts": [
+		{
+			"matches": ["https://quest.pecs.uwaterloo.ca/*"],
+			"js": ["assets/content.js"],
+			"css": ["assets/content.css"],
+			"all_frames": true,
+			"run_at": "document_end"
+		}
+	],
+	"web_accessible_resources": [
+		{
+			"matches": ["https://quest.pecs.uwaterloo.ca/*"],
+			"resources": ["assets/logo.png", "assets/logo.svg"]
+		}
+	],
+	"manifest_version": 3
+}

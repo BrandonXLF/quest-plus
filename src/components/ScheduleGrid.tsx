@@ -1,11 +1,8 @@
 import Class from '../data/Class';
 import './ScheduleGrid.css';
 import ColumnCell from './ColumnCell';
-import GetStarted from './GetStarted';
-import Course from '../data/Course';
 import { useMemo } from 'react';
 import Schedule from '../data/Schedule';
-import LoadingStatus from '../data/LoadingStatus';
 
 function gridOnScroll(e: React.UIEvent) {
 	const el = e.target as HTMLDivElement;
@@ -15,19 +12,13 @@ function gridOnScroll(e: React.UIEvent) {
 }
 
 export default function ScheduleGrid({
-	status,
 	classes,
-	onClassRemoved,
-	onCourseClicked,
 	isMini
-}: {
-	status: LoadingStatus;
+}: Readonly<{
 	classes: Class[];
-	onClassRemoved: (classInfo: Class) => void;
-	onCourseClicked: (course: Course) => void;
 	isMini?: boolean;
-}) {
-	const [columns, timeColumn, hasClassSlots] = useMemo(() => {
+}>) {
+	const [columns, timeColumn] = useMemo(() => {
 		const schedule = new Schedule(classes);
 
 		return [
@@ -39,13 +30,6 @@ export default function ScheduleGrid({
 
 	return (
 		<div className="schedule-container">
-			{!hasClassSlots && <GetStarted />}
-			{status === LoadingStatus.Loading && (
-				<div className="loading">Loading...</div>
-			)}
-			{status === LoadingStatus.Error && (
-				<div className="loading">Error loading classes.</div>
-			)}
 			<div
 				className={`schedule${isMini ? ' mini' : ''}`}
 				onScroll={gridOnScroll}
@@ -70,12 +54,7 @@ export default function ScheduleGrid({
 					{columns.map((slots, i) => (
 						<div key={i} className="column">
 							{slots.map(slot => (
-								<ColumnCell
-									key={slot.key}
-									slot={slot}
-									onClassRemoved={onClassRemoved}
-									onCourseClicked={onCourseClicked}
-								/>
+								<ColumnCell key={slot.key} slot={slot} />
 							))}
 						</div>
 					))}

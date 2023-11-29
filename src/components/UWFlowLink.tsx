@@ -4,10 +4,10 @@ import IconLink from './IconLink';
 export default function UWFlowLink({
 	path,
 	children
-}: {
+}: Readonly<{
 	path?: string;
 	children?: React.ReactNode;
-}) {
+}>) {
 	if (!children) return;
 
 	return (

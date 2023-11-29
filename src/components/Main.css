@@ -1,20 +1,8 @@
-main {
+.wisp-main {
 	display: flex;
 	flex-direction: column;
 	flex: 1;
 	height: 0;
-	padding: 1em;
-	gap: 1em;
-}
-
-@media (min-width: 600px) {
-	main {
-		flex-direction: row;
-	}
-}
-
-@media print {
-	header {
-		display: none;
-	}
+	padding-bottom: 1em;
+	gap: 0.5em;
 }

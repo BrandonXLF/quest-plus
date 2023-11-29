@@ -1,34 +1,39 @@
-import Class from '../data/Class';
 import ClassSubCell from './ClassSubCell';
 import './ColumnCell.css';
 import ScheduleSlot, { SlotType } from '../data/ScheduleSlot';
-import Course from '../data/Course';
-import { useMemo } from 'react';
+import { useEffect, useState } from 'react';
 
-export default function ColumnCell({
-	slot,
-	onClassRemoved,
-	onCourseClicked
-}: {
-	slot: ScheduleSlot;
-	onClassRemoved?: (classInfo: Class) => void;
-	onCourseClicked?: (course: Course) => void;
-}) {
-	const className = useMemo(() => {
-		if (slot.type !== SlotType.Class) return slot.type;
+export default function ColumnCell({ slot }: Readonly<{ slot: ScheduleSlot }>) {
+	const [className, setClassName] = useState('');
 
-		let classType: string;
+	useEffect(() => {
+		if (slot.type !== SlotType.Class) {
+			setClassName(slot.type);
+			return;
+		}
 
-		if ('classType' in slot) classType = slot.classType;
-		else
-			classType = slot.classSlots.every(
-				classSlot =>
-					classSlot.classInfo.type == slot.classSlots[0].classInfo.type
-			)
-				? `${slot.classSlots[0].classInfo.type}`
+		const classType = slot.classSlots.every(
+			classSlot =>
+				classSlot.classInfo.type &&
+				classSlot.classInfo.type === slot.classSlots[0].classInfo.type
+		)
+			? `${slot.classSlots[0].classInfo.type}`
+			: 'MULTI';
+
+		(async () => {
+			const types: string[] = [];
+
+			for (const classSlot of slot.classSlots)
+				types.push(await classSlot.classInfo.getType());
+
+			const classType = types.every(type => type === types[0])
+				? `${types[0]}`
 				: 'MULTI';
 
-		return `${slot.type} class-${classType}`;
+			setClassName(`${slot.type} class-${classType}`);
+		})();
+
+		setClassName(`${slot.type} class-${classType}`);
 	}, [slot]);
 
 	if (slot.start === slot.end) return null;
@@ -44,10 +49,6 @@ export default function ColumnCell({
 							key={classSlot.uniqueStr}
 							classSlot={classSlot}
 							siblings={slot.classSlots}
-							onRemoved={() => onClassRemoved?.(classSlot.classInfo)}
-							onCourseClicked={() =>
-								onCourseClicked?.(classSlot.classInfo.course)
-							}
 							expandable={slot.classSlots.length > 1}
 						/>
 					  ))

@@ -3,13 +3,15 @@ export default class ClassTime {
 	public minutes;
 	public index;
 
-	constructor(timeStr: string, end = false) {
-		const [hourStr, minuteStr] = timeStr.split(':');
-
+	constructor(
+		hourStr: string,
+		minStr: string,
+		public period: 'AM' | 'PM'
+	) {
 		this.hours = parseInt(hourStr);
-		this.minutes = parseInt(minuteStr);
+		this.minutes = parseInt(minStr);
 		this.index =
-			(end || this.hours < 8 ? this.hours + 12 : this.hours) * 60 +
+			(period === 'PM' ? (this.hours % 12) + 12 : this.hours % 12) * 60 +
 			this.minutes;
 	}
 
@@ -20,6 +22,6 @@ export default class ClassTime {
 	toString() {
 		return `${this.hours % 12 || 12}:${this.minutes
 			.toString()
-			.padStart(2, '0')}`;
+			.padStart(2, '0')} ${this.period}`;
 	}
 }

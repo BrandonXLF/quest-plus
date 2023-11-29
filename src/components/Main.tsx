@@ -1,83 +1,38 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import './Main.css';
 import ScheduleGrid from './ScheduleGrid';
-import CourseSearch from './CourseSearch';
-import Session from '../data/Session';
-import QuestImporter from './QuestImporter';
-import TopArea from './TopArea';
-import Course from '../data/Course';
 import useConfigBoolean from '../helpers/UseConfigBoolean';
-import useClassList from '../helpers/UseClassList';
-import useClassListStore from '../helpers/UseClassListStore';
+import QuestParser from '../data/QuestParser';
 import ScheduleActions from './ScheduleActions';
 
 export default function Main() {
-	const [session, setSession] = useState(Session.getCurrent());
+	const importer = useRef(new QuestParser());
 
-	const [
-		classLists,
-		ensureEmptyClassList,
-		addClassList,
-		selectClassList,
-		updateSelectedClassList,
-		removeSelectedClassList
-	] = useClassListStore(session);
+	const classes = importer.current.import(
+		[
+			...document.querySelectorAll<HTMLTableRowElement>(
+				'[id^="trSSR_REGFORM_VW$"]'
+			)
+		],
+		[
+			...document.querySelectorAll<HTMLTableRowElement>(
+				'[id^="trSTDNT_ENRL_SSVW$"]'
+			)
+		]
+	);
 
-	const [
-		selectedClasses,
-		classListStatus,
-		classImporter,
-		addClass,
-		removeClass
-	] = useClassList(classLists.selected, updateSelectedClassList, session);
-
-	const [importerShown, setImporterShown] = useState(false);
-	const [miniMode, setMiniMode] = useConfigBoolean('wisp-mini');
-
-	const mainElement = useRef<HTMLElement>(null);
-	const header = useRef<HTMLElement>(null);
-
-	const [activeCourse, setActiveCourse] = useState<Course | null>(null);
-	useEffect(() => setActiveCourse(null), [session]);
+	const [shown, setShown] = useConfigBoolean('wisp-show-timetable', true);
+	const [miniMode, setMiniMode] = useConfigBoolean('wisp-mini', false);
 
 	return (
-		<main ref={mainElement}>
-			<header ref={header}>
-				<TopArea session={session} onSessionChanged={setSession} />
-				<ScheduleActions
-					classLists={classLists}
-					onClassListSelected={selectClassList}
-					onClassListAdded={addClassList}
-					onSelectedClassListRemoved={removeSelectedClassList}
-					importerShown={importerShown}
-					onImporterShownChanged={setImporterShown}
-					miniMode={miniMode}
-					onMiniModeChanged={setMiniMode}
-				/>
-				{importerShown && (
-					<QuestImporter
-						importer={classImporter.current}
-						onEmptyClassListRequired={ensureEmptyClassList}
-						onClosed={() => setImporterShown(false)}
-					/>
-				)}
-				<CourseSearch
-					sessionCode={session.code}
-					container={mainElement.current}
-					verticalRelativesContainer={header.current}
-					scheduledClasses={selectedClasses}
-					onClassSelected={addClass}
-					activeCourse={activeCourse}
-					onCourseChanged={setActiveCourse}
-				/>
-			</header>
-			<ScheduleGrid
-				status={classListStatus}
-				classes={selectedClasses}
-				onClassRemoved={removeClass}
-				onCourseClicked={setActiveCourse}
-				isMini={miniMode}
+		<article className="wisp-main">
+			<ScheduleActions
+				shown={shown}
+				onShownChanged={setShown}
+				miniMode={miniMode}
+				onMiniModeChanged={setMiniMode}
 			/>
-		</main>
+			{shown && <ScheduleGrid classes={classes} isMini={miniMode} />}
+		</article>
 	);
 }
