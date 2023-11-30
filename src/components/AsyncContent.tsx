@@ -13,7 +13,7 @@ export default function AsyncContent({
 
 	useEffect(() => {
 		(async () => setOutput(await load()))();
-	}, deps);
+	}, [load, ...deps]);
 
 	return output ?? indicator;
 }
