@@ -13,7 +13,7 @@ export default class Class {
 		public type: string,
 		public desc: string,
 		public instructor: string,
-		public cart: boolean,
+		public cart: boolean = false,
 		public slots: ClassSlot[] = []
 	) {
 		this.supplementaryInfo = SupplementaryParser.getSupplementaryInfo(

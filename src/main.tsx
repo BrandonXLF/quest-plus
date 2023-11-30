@@ -11,7 +11,7 @@ function onPageLoaded() {
 
 	const root = document.createElement('div');
 	root.id = 'wisp-timetable-root';
-	document.getElementById('win0divDERIVED_REGFRM1_GROUP6')?.prepend(root);
+	document.querySelector('[id*="STDNT_ENRL_SSV2"], [id*="DERIVED_REGFRM1_GROUP6"]')?.prepend(root);
 
 	ReactDOM.createRoot(root).render(
 		<React.StrictMode>
