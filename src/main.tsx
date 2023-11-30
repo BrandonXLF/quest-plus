@@ -22,7 +22,7 @@ function onPageLoaded() {
 
 const observer = new MutationObserver(onPageLoaded);
 
-observer.observe(document.body, {
+observer.observe(document.getElementById('win0divPAGECONTAINER')!, {
 	childList: true
 });
 
