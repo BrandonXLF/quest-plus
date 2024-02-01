@@ -72,7 +72,7 @@ function createUWFlowLink(prefix: string, target: string, text: string) {
 	return link;
 }
 
-export function addFlowLinks() {
+export default function initFlowLinks() {
 	[
 		...document.querySelectorAll<HTMLElement>(
 			'[id*="SSR_CLSRSLT_WRK_GROUPBOX2GP"], [id*="DERIVED_REGFRM1_DESCR20"] .PAGROUPDIVIDER, [id*="DERIVED_CLS_DTL_DESCR50"]'
