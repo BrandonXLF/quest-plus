@@ -12,7 +12,7 @@ export default function UWFlowLink({
 
 	return (
 		<IconLink
-			target="uw-flow"
+			target="quest-plus-uw-flow"
 			href={`https://uwflow.com${path}`}
 			onClick={e => e.stopPropagation()}
 			icon={<UWFlowIcon />}

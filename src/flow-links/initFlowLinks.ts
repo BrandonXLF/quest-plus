@@ -21,7 +21,7 @@ function createUWFlowLink(prefix: string, target: string, text: string) {
 	link.href = 'https://uwflow.com/' + prefix + encodeURIComponent(target);
 	link.textContent = '\u25C9 ' + text;
 	link.className = 'PSHYPERLINK';
-	link.target = 'wisp-uwflow';
+	link.target = 'quest-plus-uw-flow';
 	link.style.color = 'rgb(0, 82, 204)';
 
 	return link;
