@@ -1,7 +1,7 @@
 {
-	"name": "Quest + UW Flow",
+	"name": "Quest+",
 	"version": "1.0.0",
-	"description": "Adds links to UW Flow to Waterloo Quest.",
+	"description": "Adds enhancements to the University of Waterloo's Quest website like links to UW Flow and a schedule visualizer.",
 	"permissions": ["activeTab", "scripting", "storage"],
 	"host_permissions": ["https://quest.pecs.uwaterloo.ca/"],
 	"icons": {
