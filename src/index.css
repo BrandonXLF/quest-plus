@@ -23,3 +23,7 @@
 .wisp-main * {
 	box-sizing: border-box;
 }
+
+#ACE_width {
+	width: 100% !important;
+}
