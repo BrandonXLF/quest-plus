@@ -24,7 +24,11 @@ export default class ScheduleParser extends QuestParser {
 
 		return rows.map(row => {
 			const divider = this.parseDivider(
-				this.getElementContents(row.closest('[id*="win0divDERIVED_REGFRM1_DESCR20"]')?.querySelector<HTMLDivElement>('.PAGROUPDIVIDER'))
+				this.getElementContents(
+					row
+						.closest('[id*="win0divDERIVED_REGFRM1_DESCR20"]')
+						?.querySelector<HTMLDivElement>('.PAGROUPDIVIDER')
+				)
 			);
 
 			// TODO: Use start/end dates?
