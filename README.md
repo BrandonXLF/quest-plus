@@ -1,4 +1,4 @@
-# WQuest+
+# Quest+
 
 **Quest+** is a browser extension that allows your to visualize the class schedule in your shopping cart on UW Quest while offering integration with UW Flow. It allows you to see how you various courses fit together and alerts you if any conflicts arise.
 
