@@ -22,10 +22,6 @@ export default class Class {
 			courseNumber,
 			classNumber
 		);
-
-		setInterval(() => {
-			instructor += 'A';
-		}, 2000);
 	}
 
 	public get code() {
