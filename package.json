@@ -4,10 +4,10 @@
 	"version": "1.0.0",
 	"type": "module",
 	"scripts": {
-		"dev": "node server",
 		"build": "tsc && vite build",
 		"lint": "prettier . --use-tabs --single-quote --write --arrow-parens avoid --trailing-comma none && eslint . --fix --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-		"preview": "vite preview"
+		"preview": "vite preview",
+		"watch": "vite build --watch"
 	},
 	"dependencies": {
 		"@types/chrome": "^0.0.253",
