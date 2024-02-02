@@ -7,10 +7,11 @@ function onPageLoaded() {
 	initScheduleVisualizer();
 }
 
-const observer = new MutationObserver(onPageLoaded);
-
-observer.observe(document.getElementById('win0divPAGECONTAINER')!, {
-	childList: true
-});
-
 onPageLoaded();
+window.addEventListener('quest-plus-page-nav', () => onPageLoaded());
+
+const s = document.createElement('script');
+s.defer = true;
+s.src = chrome.runtime.getURL('assets/inject.js');
+
+document.head.append(s);

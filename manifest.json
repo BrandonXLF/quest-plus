@@ -19,7 +19,7 @@
 	"web_accessible_resources": [
 		{
 			"matches": ["https://quest.pecs.uwaterloo.ca/*"],
-			"resources": ["assets/logo.png", "assets/logo.svg"]
+			"resources": ["assets/logo.png", "assets/logo.svg", "assets/inject.js"]
 		}
 	],
 	"manifest_version": 3

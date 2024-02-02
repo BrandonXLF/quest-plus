@@ -7,11 +7,14 @@ export default defineConfig({
 	plugins: [react()],
 	build: {
 		rollupOptions: {
+			input: {
+				content: 'src/main.tsx',
+				inject: 'src/inject.ts'
+			},
 			output: {
 				dir: 'assets',
-				entryFileNames: 'content.js',
-				assetFileNames: 'content.css',
-				manualChunks: undefined
+				entryFileNames: '[name].js',
+				assetFileNames: '[name].css'
 			}
 		}
 	}
