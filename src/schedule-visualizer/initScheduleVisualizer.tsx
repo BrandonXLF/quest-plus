@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom/client';
 import App from './components/App';
 
 export default function initScheduleVisualizer() {
-	document.getElementById('wisp-timetable-root')?.remove();
+	if (document.getElementById('wisp-timetable-root')) return;
 
-	const cnt = document.querySelector('[id*="STDNT_ENRL_SSV2"], [id*="DERIVED_REGFRM1_GROUP6"]');
-	
+	const cnt = document.querySelector(
+		'[id*="STDNT_ENRL_SSV2"], [id*="DERIVED_REGFRM1_GROUP6"]'
+	);
+
 	if (!cnt) return;
 
 	const root = document.createElement('div');
