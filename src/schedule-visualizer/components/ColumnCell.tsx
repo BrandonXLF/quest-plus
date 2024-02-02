@@ -51,7 +51,7 @@ export default function ColumnCell({ slot }: Readonly<{ slot: ScheduleSlot }>) {
 							siblings={slot.classSlots}
 							expandable={slot.classSlots.length > 1}
 						/>
-					  ))
+					))
 					: slot.content}
 			</div>
 		</div>
