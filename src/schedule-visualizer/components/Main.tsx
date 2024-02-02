@@ -9,13 +9,13 @@ export default function Main() {
 	const parser = useRef(getQuestParser());
 	const classes = parser.current?.parse();
 
-	const [shown, setShown] = useConfigBoolean('wisp-show-timetable', true);
-	const [miniMode, setMiniMode] = useConfigBoolean('wisp-mini', false);
+	const [shown, setShown] = useConfigBoolean('show-timetable', true);
+	const [miniMode, setMiniMode] = useConfigBoolean('mini-timetable', false);
 
 	if (!classes) return;
 
 	return (
-		<article className="wisp-main">
+		<article className="schedule-planner">
 			<ScheduleActions
 				shown={shown}
 				onShownChanged={setShown}

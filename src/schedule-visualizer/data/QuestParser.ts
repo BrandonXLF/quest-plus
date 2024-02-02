@@ -5,7 +5,9 @@ export default abstract class QuestParser {
 		if (!el) return '';
 
 		const text =
-			'wispInnerText' in el.dataset ? el.dataset.wispInnerText! : el.innerText;
+			'questPlusInnerText' in el.dataset
+				? el.dataset.questPlusInnerText!
+				: el.innerText;
 
 		return text.trim().replace(/ +/g, ' ');
 	}

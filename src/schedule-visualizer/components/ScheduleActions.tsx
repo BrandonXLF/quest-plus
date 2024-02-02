@@ -20,7 +20,7 @@ export default function ScheduleActions({
 	onMiniModeChanged: (miniMode: boolean) => void;
 }>) {
 	return (
-		<header className="wisp-header">
+		<header className="schedule-planner-header">
 			<BorderlessButton onClick={() => onShownChanged(!shown)}>
 				{shown ? <CollapseIcon /> : <ExpandIcon />}
 			</BorderlessButton>
@@ -44,7 +44,7 @@ export default function ScheduleActions({
 				{' '}
 				<IconLink
 					target="_blank"
-					href="https://github.com/BrandonXLF/wisp"
+					href="https://github.com/BrandonXLF/quest-plus"
 					rel="noreferrer"
 					icon={<GitHubIcon />}
 				>

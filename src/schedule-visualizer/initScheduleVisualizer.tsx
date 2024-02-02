@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './components/App';
 
 export default function initScheduleVisualizer() {
-	if (document.getElementById('wisp-timetable-root')) return;
+	if (document.getElementById('schedule-planner-root')) return;
 
 	const cnt = document.querySelector(
 		'[id*="STDNT_ENRL_SSV2"], [id*="DERIVED_REGFRM1_GROUP6"]'
@@ -12,7 +12,7 @@ export default function initScheduleVisualizer() {
 	if (!cnt) return;
 
 	const root = document.createElement('div');
-	root.id = 'wisp-timetable-root';
+	root.id = 'schedule-planner-root';
 
 	cnt?.prepend(root);
 	cnt.closest('td')!.style.width = '100%';

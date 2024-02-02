@@ -2,12 +2,12 @@ function makeLinkModifier(func: (el: HTMLElement, text: string) => void) {
 	return (el: HTMLElement) => {
 		if (el.dataset.questPlusProcessed) return;
 
-		if (!el.dataset.wispInnerText) {
+		if (!el.dataset.questPlusInnerText) {
 			// Used by other Quest+ tools
-			el.dataset.wispInnerText = el.innerText;
+			el.dataset.questPlusInnerText = el.innerText;
 		}
 
-		const text = el.dataset.wispInnerText.trim();
+		const text = el.dataset.questPlusInnerText.trim();
 
 		func(el, text);
 

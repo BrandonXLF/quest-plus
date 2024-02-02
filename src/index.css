@@ -1,4 +1,4 @@
-.wisp-main {
+.schedule-planner {
 	--theme: #f5bd00;
 	--theme-light: #ffe799;
 	--color: #000;
@@ -15,12 +15,12 @@
 	--semi-transparent: #fffffff2;
 }
 
-.wisp-main a,
-.wisp-main a:visited {
+.schedule-planner a,
+.schedule-planner a:visited {
 	color: var(--link);
 }
 
-.wisp-main * {
+.schedule-planner * {
 	box-sizing: border-box;
 }
 
