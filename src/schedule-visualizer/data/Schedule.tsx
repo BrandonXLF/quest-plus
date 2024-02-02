@@ -6,9 +6,9 @@ type ScheduleSlotWithKey = ScheduleSlot & { key: string };
 export type Day = (typeof Schedule.days)[number];
 
 export default class Schedule {
-	static days = ['M', 'T', 'W', 'Th', 'F'] as const;
+	static readonly days = ['M', 'T', 'W', 'Th', 'F'] as const;
 
-	static dayLabels: Record<Day, string> = {
+	static readonly dayLabels: Record<Day, string> = {
 		M: 'Mon',
 		T: 'Tue',
 		W: 'Wed',
