@@ -1,3 +1,5 @@
+import getInstructorUWFlow from '../helpers/getInstructorUWFlow';
+
 function makeLinkModifier(func: (el: HTMLElement, text: string) => void) {
 	return (el: HTMLElement) => {
 		if (el.dataset.questPlusProcessed) return;
@@ -18,7 +20,7 @@ function makeLinkModifier(func: (el: HTMLElement, text: string) => void) {
 function createUWFlowLink(prefix: string, target: string, text: string) {
 	const link = document.createElement('a');
 
-	link.href = 'https://uwflow.com/' + prefix + encodeURIComponent(target);
+	link.href = 'https://uwflow.com' + prefix + encodeURIComponent(target);
 	link.textContent = '\u25C9 ' + text;
 	link.className = 'PSHYPERLINK';
 	link.target = 'quest-plus-uw-flow';
@@ -31,7 +33,7 @@ const insertCourseLink = makeLinkModifier((el: HTMLElement, text: string) => {
 	const parts = /^([A-Z]+)\s+([A-Z0-9]+).*/.exec(text);
 
 	el.replaceChildren(
-		createUWFlowLink('course/', (parts![1] + parts![2]).toLowerCase(), text)
+		createUWFlowLink('/course/', (parts![1] + parts![2]).toLowerCase(), text)
 	);
 });
 
@@ -41,7 +43,7 @@ const prependCourseLink = makeLinkModifier((el: HTMLElement, text: string) => {
 	el.replaceChildren(
 		'(',
 		createUWFlowLink(
-			'course/',
+			'/course/',
 			(parts![1] + parts![2]).toLowerCase(),
 			parts![1] + ' ' + parts![2]
 		),
@@ -52,26 +54,14 @@ const prependCourseLink = makeLinkModifier((el: HTMLElement, text: string) => {
 
 const insertInstructorLink = makeLinkModifier(
 	(el: HTMLElement, names: string) => {
-		if (names === 'Staff' || names === 'To be Announced') return;
-
 		const links = names.split(',').flatMap((rawName, i) => {
 			const name = rawName.trim();
-			const shortForm = name[1] === '.';
+			const url = getInstructorUWFlow(name);
+			const show = url ? createUWFlowLink(url, '', name) : name;
 
-			const link = createUWFlowLink(
-				shortForm ? 'explore?q=' : 'professor/',
-				shortForm
-					? name
-					: name
-						.toLowerCase()
-						.replace(/ /g, '_')
-						.replace(/[^a-z_]/g, ''),
-				name
-			);
+			if (i > 0) return [', ', show];
 
-			if (i > 0) return [', ', link];
-
-			return [link];
+			return [show];
 		});
 
 		el.replaceChildren(...links);

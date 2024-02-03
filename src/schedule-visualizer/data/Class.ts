@@ -3,7 +3,8 @@ import SupplementaryParser from './SupplementaryParser';
 import { SupplementaryInfo } from './SupplementaryInfo';
 
 export default class Class {
-	supplementaryInfo: Promise<SupplementaryInfo>;
+	readonly supplementaryInfo: Promise<SupplementaryInfo>;
+	readonly instructors: string[];
 
 	constructor(
 		public subject: string,
@@ -12,7 +13,7 @@ export default class Class {
 		public classNumber: string,
 		public type: string,
 		public desc: string,
-		public instructor: string,
+		public instructorString: string,
 		public cart: boolean = false,
 		public slots: ClassSlot[] = []
 	) {
@@ -22,6 +23,10 @@ export default class Class {
 			courseNumber,
 			classNumber
 		);
+
+		this.instructors = this.instructorString
+			.split(',')
+			.map(rawName => rawName.trim());
 	}
 
 	public get code() {
@@ -30,24 +35,6 @@ export default class Class {
 
 	public get identifier() {
 		return `${this.subject} ${this.courseNumber} ${this.section}`;
-	}
-
-	private get instructorParts() {
-		return this.instructor.split(',', 2);
-	}
-
-	public get instructorLast() {
-		return this.instructorParts[0] || '';
-	}
-
-	public get instructorFull() {
-		return `${this.instructorParts[1] || ''} ${this.instructorParts[0] || ''}`;
-	}
-
-	public get instructorLink() {
-		return `/explore?q=${encodeURIComponent(
-			this.instructorFull.toLowerCase().replace(/[^a-z ]/g, '')
-		)}`;
 	}
 
 	async getEnrolledString() {

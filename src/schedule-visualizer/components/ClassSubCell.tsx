@@ -8,6 +8,7 @@ import OverlapIcon from '../icons/OverlapIcon';
 import UWFlowLink from './UWFlowLink';
 import AsyncContent from './AsyncContent';
 import CartIcon from '../icons/CartIcon';
+import getInstructorUWFlow from '../../helpers/getInstructorUWFlow';
 
 export default function ClassSubCell({
 	classSlot,
@@ -85,9 +86,21 @@ export default function ClassSubCell({
 				<div className="expanded-content">
 					<div>
 						<span>{classSlot.room}</span>{' '}
-						<UWFlowLink path={classSlot.classInfo.instructorLink}>
-							{classSlot.classInfo.instructorLast}
-						</UWFlowLink>{' '}
+						{classSlot.classInfo.instructors.flatMap((name, i) => {
+							const url = getInstructorUWFlow(name);
+							const displayName =
+								name === 'To be Announced' ? 'Instructor TBA' : name;
+
+							const show = url ? (
+								<UWFlowLink path={url}>{displayName}</UWFlowLink>
+							) : (
+								displayName
+							);
+
+							if (i > 0) return [', ', show];
+
+							return [show];
+						})}{' '}
 						<span>
 							<AsyncContent
 								load={() => classSlot.classInfo.getEnrolledString()}
