@@ -4,7 +4,7 @@ import ScheduleGrid from './ScheduleGrid';
 import useConfigBoolean from '../helpers/UseConfigBoolean';
 import ScheduleActions from './ScheduleActions';
 import getQuestParser from '../data/getQuestParser';
-import ClassToggle from './ClassToggle';
+import ClassToggleList from './ClassToggleList';
 
 export default function Main() {
 	const parser = useRef(getQuestParser());
@@ -36,7 +36,7 @@ export default function Main() {
 				onFilterToggleClicked={() => setShowFilter(showFilter => !showFilter)}
 			/>
 			{shown && showFilter && (
-				<ClassToggle
+				<ClassToggleList
 					classes={classes}
 					hiddenClasses={hiddenClasses}
 					onHiddenClassesChanged={changes => {
