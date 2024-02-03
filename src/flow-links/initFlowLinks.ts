@@ -52,7 +52,7 @@ const prependCourseLink = makeLinkModifier((el: HTMLElement, text: string) => {
 
 const insertInstructorLink = makeLinkModifier(
 	(el: HTMLElement, names: string) => {
-		if (names === 'Staff') return;
+		if (names === 'Staff' || names === 'To be Announced') return;
 
 		const links = names.split(',').flatMap((rawName, i) => {
 			const name = rawName.trim();
