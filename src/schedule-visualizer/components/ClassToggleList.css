@@ -6,7 +6,8 @@
 .planner-toggles {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 0.5em;
+	row-gap: 0.5em;
+	column-gap: 1em;
 	width: 0;
 	flex: 1;
 }

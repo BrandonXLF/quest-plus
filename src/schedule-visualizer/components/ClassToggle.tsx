@@ -1,5 +1,7 @@
+import './ClassToggle.css';
 import AsyncContent from './AsyncContent';
 import Class from '../data/Class';
+import CartIcon from '../icons/CartIcon';
 
 export default function ClassToggle({
 	hidden,
@@ -12,17 +14,24 @@ export default function ClassToggle({
 }>) {
 	return (
 		<div>
-			<label>
+			<label className="schedule-class-toggle">
 				<input
 					type="checkbox"
 					checked={!hidden}
 					onInput={() => onHiddenChanged(!hidden)}
 				/>
-				{classInfo.identifier}
-				<AsyncContent
-					load={async () => ` ${await classInfo.getType()}`}
-					deps={[classInfo]}
-				/>
+				{classInfo.cart && (
+					<>
+						<CartIcon />{' '}
+					</>
+				)}
+				<span>{classInfo.identifier}</span>
+				<span>
+					<AsyncContent
+						load={async () => ` ${await classInfo.getType()}`}
+						deps={[classInfo]}
+					/>
+				</span>
 			</label>
 		</div>
 	);

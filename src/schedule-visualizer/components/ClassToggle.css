@@ -1,0 +1,13 @@
+.schedule-class-toggle {
+	display: flex;
+	gap: 0.25em;
+    align-items: center;
+}
+
+.schedule-class-toggle input[type="checkbox"] {
+    margin: 0;
+}
+
+.schedule-class-toggle .icon {
+    height: 0.85em;
+}
