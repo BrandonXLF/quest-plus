@@ -1,6 +1,6 @@
 import ClassDate from './ClassDate';
 import ClassesParser from './ClassesParser';
-import { SupplementaryInfo } from './SupplementryInfo';
+import { SupplementaryInfo } from './SupplementaryInfo';
 
 export default class SupplementaryParser extends ClassesParser {
 	private static classCache: Record<string, Record<string, SupplementaryInfo>> =

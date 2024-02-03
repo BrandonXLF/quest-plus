@@ -1,6 +1,6 @@
 import ClassSlot from './ClassSlot';
 import SupplementaryParser from './SupplementaryParser';
-import { SupplementaryInfo } from './SupplementryInfo';
+import { SupplementaryInfo } from './SupplementaryInfo';
 
 export default class Class {
 	supplementaryInfo: Promise<SupplementaryInfo>;
