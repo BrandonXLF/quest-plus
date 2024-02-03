@@ -28,6 +28,10 @@ export default class Class {
 		return `${this.subject} ${this.courseNumber}`;
 	}
 
+	public get identifier() {
+		return `${this.subject} ${this.courseNumber} ${this.section}`;
+	}
+
 	private get instructorParts() {
 		return this.instructor.split(',', 2);
 	}

@@ -1,0 +1,12 @@
+.planner-toggles-container {
+	display: flex;
+	flex: 1;
+}
+
+.planner-toggles {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5em;
+	width: 0;
+	flex: 1;
+}

@@ -7,17 +7,20 @@ import GitHubIcon from '../icons/GitHubIcon';
 import CollapseIcon from '../icons/CollapseIcon';
 import ExpandIcon from '../icons/ExpandIcon';
 import Title from './Title';
+import FilterIcon from '../icons/FilterIcon';
 
 export default function ScheduleActions({
 	shown,
 	onShownChanged,
 	miniMode,
-	onMiniModeChanged
+	onMiniModeChanged,
+	onFilterToggleClicked
 }: Readonly<{
 	shown: boolean;
 	onShownChanged: (shown: boolean) => void;
 	miniMode: boolean;
 	onMiniModeChanged: (miniMode: boolean) => void;
+	onFilterToggleClicked: () => void;
 }>) {
 	return (
 		<header className="schedule-planner-header">
@@ -26,9 +29,14 @@ export default function ScheduleActions({
 			</BorderlessButton>
 			<Title />
 			{shown && (
-				<BorderlessButton onClick={() => onMiniModeChanged(!miniMode)}>
-					{miniMode ? <MaximizeIcon /> : <MinimizeIcon />}
-				</BorderlessButton>
+				<>
+					<BorderlessButton onClick={() => onFilterToggleClicked()}>
+						<FilterIcon />
+					</BorderlessButton>
+					<BorderlessButton onClick={() => onMiniModeChanged(!miniMode)}>
+						{miniMode ? <MaximizeIcon /> : <MinimizeIcon />}
+					</BorderlessButton>
+				</>
 			)}
 			<div>
 				Created by{' '}
