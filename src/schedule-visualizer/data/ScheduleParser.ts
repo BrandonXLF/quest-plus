@@ -3,7 +3,7 @@ import ClassSlot from './ClassSlot';
 import QuestParser from './QuestParser';
 
 export default class ScheduleParser extends QuestParser {
-	static DIVIDER_PARSER = /^([A-Z]+) (\d+[A-Z]?) - ([A-Za-z ]+)/;
+	static readonly DIVIDER_PARSER = /^([A-Z]+) (\d+[A-Z]?) - ([A-Za-z ]+)/;
 
 	parseDivider(divider: string) {
 		const res = ScheduleParser.DIVIDER_PARSER.exec(divider);

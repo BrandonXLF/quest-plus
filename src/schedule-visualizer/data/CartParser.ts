@@ -3,8 +3,8 @@ import ClassSlot from './ClassSlot';
 import QuestParser from './QuestParser';
 
 export default class CartParser extends QuestParser {
-	static NAME_REGEX = /^([A-Z]+) (\d+[A-Z]?)-(\d+)\n\((\d+)\)/;
-	static DESC_REGEX = /^(.+) \(([A-Z]+)\)/;
+	static readonly NAME_REGEX = /^([A-Z]+) (\d+[A-Z]?)-(\d+)\n\((\d+)\)/;
+	static readonly DESC_REGEX = /^(.+) \(([A-Z]+)\)/;
 
 	parseName(name: string) {
 		const res = CartParser.NAME_REGEX.exec(name);
