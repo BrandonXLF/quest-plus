@@ -6,6 +6,8 @@ export default class CartParser extends QuestParser {
 	static readonly NAME_REGEX = /^([A-Z]+) (\d+[A-Z]?)-(\d+)\n\((\d+)\)/;
 	static readonly DESC_REGEX = /^(.+) \(([A-Z]+)\)/;
 
+	private seen: Record<string, Class> = {};
+
 	parseName(name: string) {
 		const res = CartParser.NAME_REGEX.exec(name);
 
@@ -25,28 +27,37 @@ export default class CartParser extends QuestParser {
 	}
 
 	importRows(rows: HTMLTableRowElement[], cart: boolean) {
-		return rows.map(row => {
-			const classInfo = new Class(
-				...this.parseName(this.getChildContents(row, 'CLASS_NAME')),
-				...this.parseDesc(this.getChildContents(row, 'CLASS_DESCR')),
-				this.getChildContents(row, 'INSTR'),
-				cart
-			);
+		return rows
+			.map(row => {
+				const classInfo = new Class(
+					...this.parseName(this.getChildContents(row, 'CLASS_NAME')),
+					...this.parseDesc(this.getChildContents(row, 'CLASS_DESCR')),
+					this.getChildContents(row, 'INSTR'),
+					cart
+				);
 
-			const slot = ClassSlot.fromString(
-				classInfo,
-				this.getChildContents(row, 'SCHED'),
-				this.getChildContents(row, 'LOC')
-			);
+				if (this.seen[classInfo.identifier]) {
+					this.seen[classInfo.identifier].cart &&= cart;
+					return undefined;
+				}
 
-			if (slot) classInfo.slots.push(slot);
+				this.seen[classInfo.identifier] = classInfo;
 
-			return classInfo;
-		});
+				const slot = ClassSlot.fromString(
+					classInfo,
+					this.getChildContents(row, 'SCHED'),
+					this.getChildContents(row, 'LOC')
+				);
+
+				if (slot) classInfo.slots.push(slot);
+
+				return classInfo;
+			})
+			.filter(Boolean) as Class[];
 	}
 
 	parse() {
-		return [
+		const result = [
 			...this.importRows(
 				[
 					...document.querySelectorAll<HTMLTableRowElement>(
@@ -64,5 +75,9 @@ export default class CartParser extends QuestParser {
 				false
 			)
 		];
+
+		this.seen = {};
+
+		return result;
 	}
 }
