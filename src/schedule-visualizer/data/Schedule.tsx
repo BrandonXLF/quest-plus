@@ -27,8 +27,8 @@ export default class Schedule {
 		this.columns = Schedule.days.map(() => []);
 
 		this.classes.forEach(classInfo => {
-			classInfo.slots.forEach((classSlot, i) => {
-				classSlot.days.forEach((day, j) => {
+			classInfo.slots.forEach(classSlot => {
+				classSlot.days.forEach(day => {
 					this.hasClassSlots = true;
 
 					this.columns[Schedule.days.indexOf(day)].push({
@@ -36,7 +36,7 @@ export default class Schedule {
 						start: classSlot.start.index,
 						end: classSlot.end.index,
 						classSlots: [classSlot],
-						key: `${classInfo.courseNumber}/${i}/${j}`
+						key: `${classInfo.courseNumber}/${classSlot.uniqueStr}/${day}`
 					});
 				});
 			});

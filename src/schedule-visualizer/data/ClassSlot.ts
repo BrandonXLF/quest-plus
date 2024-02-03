@@ -59,7 +59,7 @@ export default class ClassSlot {
 	}
 
 	get uniqueStr() {
-		return `${this.timeStr}${this.dayStr}${this.room}`;
+		return `${this.timeStr} ${this.dayStr} ${this.room}`;
 	}
 
 	get dates() {
