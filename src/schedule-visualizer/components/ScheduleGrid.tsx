@@ -21,11 +21,7 @@ export default function ScheduleGrid({
 	const [columns, timeColumn] = useMemo(() => {
 		const schedule = new Schedule(classes);
 
-		return [
-			schedule.prepareColumns(),
-			schedule.prepareTimeColumn(),
-			schedule.hasClassSlots
-		];
+		return [schedule.prepareColumns(), schedule.prepareTimeColumn()];
 	}, [classes]);
 
 	return (
