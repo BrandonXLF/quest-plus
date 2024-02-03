@@ -38,17 +38,7 @@ export default function ScheduleActions({
 					</BorderlessButton>
 				</>
 			)}
-			<div>
-				Created by{' '}
-				<a
-					target="_blank"
-					href="https://www.brandonfowler.me/"
-					rel="noreferrer"
-				>
-					Brandon Fowler
-				</a>
-			</div>
-			<div>
+			<div className="header-external-links">
 				{' '}
 				<IconLink
 					target="_blank"
