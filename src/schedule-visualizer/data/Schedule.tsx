@@ -1,7 +1,7 @@
 import Class from './Class';
 import ScheduleSlot, { SlotType } from './ScheduleSlot';
 
-type ScheduleSlotWithKey = ScheduleSlot & { key: string };
+export type ScheduleSlotWithKey = ScheduleSlot & { key: string };
 
 export type Day = (typeof Schedule.days)[number];
 
@@ -26,9 +26,10 @@ export default class Schedule {
 	createColumns() {
 		this.columns = Schedule.days.map(() => []);
 
-		this.classes.forEach(classInfo => {
-			classInfo.slots.forEach(classSlot => {
-				classSlot.days.forEach(day => {
+		for (const classInfo of this.classes) {
+			for (const classSlot of classInfo.slots) {
+				for (const day of classSlot.days) {
+					this.hasClassSlots = true;
 					this.hasClassSlots = true;
 
 					this.columns[Schedule.days.indexOf(day)].push({
@@ -38,9 +39,9 @@ export default class Schedule {
 						classSlots: [classSlot],
 						key: `${classInfo.courseNumber}/${classSlot.uniqueStr}/${day}`
 					});
-				});
-			});
-		});
+				}
+			}
+		}
 	}
 
 	processClassOverlap(
