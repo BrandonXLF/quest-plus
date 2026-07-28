@@ -8,7 +8,7 @@ import OverlapIcon from '../icons/OverlapIcon';
 import UWFlowLink from './UWFlowLink';
 import AsyncContent from './AsyncContent';
 import CartIcon from '../icons/CartIcon';
-import getInstructorUWFlow from '../../helpers/getInstructorUWFlow';
+import getInstructorUWFlow from '../../common/getInstructorUWFlow';
 
 export default function ClassSubCell({
 	classSlot,

@@ -1,4 +1,4 @@
-import getInstructorUWFlow from '../helpers/getInstructorUWFlow';
+import getInstructorUWFlow from '../common/getInstructorUWFlow';
 
 function makeLinkModifier(func: (el: HTMLElement, text: string) => void) {
 	return (el: HTMLElement) => {
