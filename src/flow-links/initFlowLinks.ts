@@ -1,5 +1,7 @@
 import getInstructorUWFlow from '../common/getInstructorUWFlow';
 
+const courseCodeRegex = /^([A-Z]+)\s+([A-Z0-9]+).*/;
+
 function makeLinkModifier(func: (el: HTMLElement, text: string) => void) {
 	return (el: HTMLElement) => {
 		if (el.dataset.questPlusProcessed) return;
@@ -30,7 +32,7 @@ function createUWFlowLink(prefix: string, target: string, text: string) {
 }
 
 const insertCourseLink = makeLinkModifier((el: HTMLElement, text: string) => {
-	const parts = /^([A-Z]+)\s+([A-Z0-9]+).*/.exec(text);
+	const parts = courseCodeRegex.exec(text);
 
 	el.replaceChildren(
 		createUWFlowLink('/course/', (parts![1] + parts![2]).toLowerCase(), text)
@@ -38,7 +40,7 @@ const insertCourseLink = makeLinkModifier((el: HTMLElement, text: string) => {
 });
 
 const prependCourseLink = makeLinkModifier((el: HTMLElement, text: string) => {
-	const parts = /^([A-Z]+)\s+([A-Z0-9]+).*/.exec(text);
+	const parts = courseCodeRegex.exec(text);
 
 	el.replaceChildren(
 		'(',
@@ -70,6 +72,36 @@ const insertInstructorLink = makeLinkModifier(
 	}
 );
 
+const onSelectChange = (el: HTMLSelectElement) => {
+	el.parentElement
+		?.querySelectorAll<HTMLElement>('.quest-plus-select-link')
+		.forEach(el => el.remove());
+
+	const text = el.selectedOptions[0]?.textContent?.trim();
+	if (!text) return;
+
+	const parts = courseCodeRegex.exec(text);
+
+	const linkHolder = document.createElement('div');
+	linkHolder.className = 'quest-plus-select-link';
+	linkHolder.append(
+		'(',
+		createUWFlowLink(
+			'/course/',
+			(parts![1] + parts![2]).toLowerCase(),
+			parts![1] + ' ' + parts![2]
+		),
+		')'
+	);
+
+	el.parentElement?.append(linkHolder);
+};
+
+const addLinkBelow = (el: HTMLSelectElement) => {
+	el.addEventListener('change', () => onSelectChange(el));
+	onSelectChange(el);
+};
+
 export default function initFlowLinks() {
 	[
 		...document.querySelectorAll<HTMLElement>(
@@ -88,4 +120,10 @@ export default function initFlowLinks() {
 			'[id*="MTG_INSTR"], [id*="DERIVED_CLS_DTL_SSR_INSTR_LONG"], [id*="DERIVED_REGFRM1_SSR_INSTR_LONG"]'
 		)
 	].forEach(insertInstructorLink);
+
+	[
+		...document.querySelectorAll<HTMLSelectElement>(
+			'select[id*="DERIVED_REGFRM1_SSR_CLASSNAME"], select[id*="DERIVED_REGFRM1_DESCR"]'
+		)
+	].forEach(addLinkBelow);
 }
