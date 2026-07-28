@@ -8,6 +8,10 @@ export default class CartParser extends QuestParser {
 
 	private seen: Record<string, Class> = {};
 
+	getSession() {
+		return new URLSearchParams(document.location.search).get('STRM') ?? '';
+	}
+
 	parseName(name: string) {
 		const res = CartParser.NAME_REGEX.exec(name);
 
@@ -26,10 +30,11 @@ export default class CartParser extends QuestParser {
 		return [res[2], res[1]] as const;
 	}
 
-	importRows(rows: HTMLTableRowElement[], cart: boolean) {
+	importRows(session: string, rows: HTMLTableRowElement[], cart: boolean) {
 		return rows
 			.map(row => {
 				const classInfo = new Class(
+					session,
 					...this.parseName(this.getChildContents(row, 'CLASS_NAME')),
 					...this.parseDesc(this.getChildContents(row, 'CLASS_DESCR')),
 					this.getChildContents(row, 'INSTR'),
@@ -57,8 +62,11 @@ export default class CartParser extends QuestParser {
 	}
 
 	parse() {
+		const session = this.getSession();
+
 		const result = [
 			...this.importRows(
+				session,
 				[
 					...document.querySelectorAll<HTMLTableRowElement>(
 						'[id^="trSSR_REGFORM_VW$"]'
@@ -67,6 +75,7 @@ export default class CartParser extends QuestParser {
 				true
 			),
 			...this.importRows(
+				session,
 				[
 					...document.querySelectorAll<HTMLTableRowElement>(
 						'[id^="trSTDNT_ENRL_SSVW$"]'

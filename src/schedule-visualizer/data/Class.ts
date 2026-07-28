@@ -7,6 +7,7 @@ export default class Class {
 	readonly instructors: string[];
 
 	constructor(
+		public session: string,
 		public subject: string,
 		public courseNumber: string,
 		public section: string,
@@ -18,7 +19,7 @@ export default class Class {
 		public slots: ClassSlot[] = []
 	) {
 		this.supplementaryInfo = SupplementaryParser.getSupplementaryInfo(
-			'1241',
+			session,
 			subject,
 			courseNumber,
 			classNumber

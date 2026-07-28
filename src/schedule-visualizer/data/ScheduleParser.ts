@@ -5,6 +5,14 @@ import QuestParser from './QuestParser';
 export default class ScheduleParser extends QuestParser {
 	static readonly DIVIDER_PARSER = /^([A-Z]+) (\d+[A-Z]?) - ([A-Za-z ]+)/;
 
+	getSession() {
+		const link = document.querySelector<HTMLAnchorElement>(
+			'#win0divDERIVED_SSTSNAV_SSTS_NAV_SUBTABS > div > table > tbody > tr > td:nth-child(2) > a'
+		);
+		if (!link) return '';
+		return new URL(link.href).searchParams.get('STRM') ?? '';
+	}
+
 	parseDivider(divider: string) {
 		const res = ScheduleParser.DIVIDER_PARSER.exec(divider);
 
@@ -16,6 +24,8 @@ export default class ScheduleParser extends QuestParser {
 	}
 
 	parse() {
+		const session = this.getSession();
+
 		const rows = [
 			...document.querySelectorAll<HTMLTableRowElement>(
 				'[id^="trCLASS_MTG_VW$"]'
@@ -33,6 +43,7 @@ export default class ScheduleParser extends QuestParser {
 
 			// TODO: Use start/end dates?
 			const classInfo = new Class(
+				session,
 				divider[0],
 				divider[1],
 				this.getChildContents(row, 'MTG_SECTION'),
