@@ -1,4 +1,4 @@
-export default abstract class UWParser {
+export default abstract class ClassesParser {
 	private domParser = new DOMParser();
 
 	protected async fetchTableRows(
