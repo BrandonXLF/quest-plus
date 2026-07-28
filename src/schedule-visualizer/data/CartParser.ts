@@ -43,22 +43,22 @@ export default class CartParser extends QuestParser {
 
 				if (this.seen[classInfo.identifier]) {
 					this.seen[classInfo.identifier].cart &&= cart;
-					return undefined;
+					return null;
 				}
 
 				this.seen[classInfo.identifier] = classInfo;
 
-				const slot = ClassSlot.fromString(
-					classInfo,
-					this.getChildContents(row, 'SCHED'),
-					this.getChildContents(row, 'LOC')
-				);
+				const sched = this.getChildContents(row, 'SCHED').split('\n');
+				const loc = this.getChildContents(row, 'LOC').split('\n');
 
-				if (slot) classInfo.slots.push(slot);
+				for (let i = 0; i < sched.length; i++) {
+					const slot = ClassSlot.fromString(classInfo, sched[i], loc[i]);
+					if (slot) classInfo.slots.push(slot);
+				}
 
 				return classInfo;
 			})
-			.filter(Boolean) as Class[];
+			.filter(classInfo => classInfo !== null);
 	}
 
 	parse() {

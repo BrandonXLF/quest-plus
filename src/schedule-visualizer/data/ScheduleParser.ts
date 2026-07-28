@@ -32,36 +32,53 @@ export default class ScheduleParser extends QuestParser {
 			)
 		];
 
-		return rows.map(row => {
-			const divider = this.parseDivider(
-				this.getElementContents(
-					row
-						.closest('[id*="win0divDERIVED_REGFRM1_DESCR20"]')
-						?.querySelector<HTMLDivElement>('.PAGROUPDIVIDER')
-				)
-			);
+		let lastClassInfo: Class | undefined;
 
-			// TODO: Use start/end dates?
-			const classInfo = new Class(
-				session,
-				divider[0],
-				divider[1],
-				this.getChildContents(row, 'MTG_SECTION'),
-				this.getChildContents(row, 'CLASS_NBR'),
-				this.getChildContents(row, 'MTG_COMP'),
-				divider[2],
-				this.getChildContents(row, 'INSTR_LONG')
-			);
+		return rows
+			.map(row => {
+				const divider = this.parseDivider(
+					this.getElementContents(
+						row
+							.closest('[id*="win0divDERIVED_REGFRM1_DESCR20"]')
+							?.querySelector<HTMLDivElement>('.PAGROUPDIVIDER')
+					)
+				);
 
-			const slot = ClassSlot.fromString(
-				classInfo,
-				this.getChildContents(row, 'SCHED'),
-				this.getChildContents(row, 'LOC')
-			);
+				if (!this.getChildContents(row, 'CLASS_NBR')) {
+					lastClassInfo?.slots.push(
+						ClassSlot.fromString(
+							lastClassInfo,
+							this.getChildContents(row, 'SCHED'),
+							this.getChildContents(row, 'LOC')
+						)!
+					);
 
-			if (slot) classInfo.slots.push(slot);
+					return null;
+				}
 
-			return classInfo;
-		});
+				// TODO: Use start/end dates from here instead of supplementary info
+				const classInfo = new Class(
+					session,
+					divider[0],
+					divider[1],
+					this.getChildContents(row, 'MTG_SECTION'),
+					this.getChildContents(row, 'CLASS_NBR'),
+					this.getChildContents(row, 'MTG_COMP'),
+					divider[2],
+					this.getChildContents(row, 'INSTR_LONG')
+				);
+
+				const slot = ClassSlot.fromString(
+					classInfo,
+					this.getChildContents(row, 'SCHED'),
+					this.getChildContents(row, 'LOC')
+				);
+
+				if (slot) classInfo.slots.push(slot);
+
+				lastClassInfo = classInfo;
+				return classInfo;
+			})
+			.filter(classInfo => classInfo !== null);
 	}
 }
