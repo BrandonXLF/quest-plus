@@ -58,7 +58,7 @@ export default class CartParser extends QuestParser {
 
 				return classInfo;
 			})
-			.filter(classInfo => classInfo !== null);
+			.filter((classInfo): classInfo is Class => classInfo !== null);
 	}
 
 	parse() {

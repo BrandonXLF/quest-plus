@@ -79,6 +79,6 @@ export default class ScheduleParser extends QuestParser {
 				lastClassInfo = classInfo;
 				return classInfo;
 			})
-			.filter(classInfo => classInfo !== null);
+			.filter((classInfo): classInfo is Class => classInfo !== null);
 	}
 }
