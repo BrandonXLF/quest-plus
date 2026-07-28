@@ -34,11 +34,11 @@ export default class CartParser extends QuestParser {
 		return rows
 			.map(row => {
 				const classInfo = new Class(
+					cart,
 					session,
 					...this.parseName(this.getChildContents(row, 'CLASS_NAME')),
 					...this.parseDesc(this.getChildContents(row, 'CLASS_DESCR')),
-					this.getChildContents(row, 'INSTR'),
-					cart
+					this.getChildContents(row, 'INSTR')
 				);
 
 				if (this.seen[classInfo.identifier]) {

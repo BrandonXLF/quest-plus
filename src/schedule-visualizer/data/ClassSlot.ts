@@ -32,11 +32,11 @@ export default class ClassSlot {
 	}
 
 	constructor(
-		public classInfo: Class,
-		public start: ClassTime,
-		public end: ClassTime,
-		public days: Day[],
-		public room: string
+		public readonly classInfo: Class,
+		public readonly start: ClassTime,
+		public readonly end: ClassTime,
+		public readonly days: Day[],
+		public readonly room: string
 	) {}
 
 	get timeStr() {

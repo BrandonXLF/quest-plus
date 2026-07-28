@@ -56,8 +56,9 @@ export default class ScheduleParser extends QuestParser {
 					return null;
 				}
 
-				// TODO: Use start/end dates from here instead of supplementary info
+				// TODO: Use start/end dates from here instead of supplementary info?
 				const classInfo = new Class(
+					false,
 					session,
 					divider[0],
 					divider[1],

@@ -7,15 +7,19 @@ export default class Class {
 	readonly instructors: string[];
 
 	constructor(
-		public session: string,
-		public subject: string,
-		public courseNumber: string,
-		public section: string,
-		public classNumber: string,
-		public type: string,
-		public desc: string,
-		public instructorString: string,
 		public cart: boolean = false,
+
+		// Mandatory
+		public readonly session: string,
+		public readonly subject: string,
+		public readonly courseNumber: string,
+		public readonly section: string,
+		public readonly classNumber: string,
+
+		// Optional
+		private readonly type?: string,
+		public readonly desc?: string,
+		private readonly instructorString?: string,
 		public slots: ClassSlot[] = []
 	) {
 		this.supplementaryInfo = SupplementaryParser.getSupplementaryInfo(
@@ -25,7 +29,7 @@ export default class Class {
 			classNumber
 		);
 
-		this.instructors = this.instructorString
+		this.instructors = (this.instructorString ?? '?')
 			.split(',')
 			.map(rawName => rawName.trim());
 	}
@@ -42,6 +46,10 @@ export default class Class {
 		const info = await this.supplementaryInfo;
 
 		return `${info.enrolled}/${info.capacity}`;
+	}
+
+	get initialType() {
+		return this.type;
 	}
 
 	async getType() {
