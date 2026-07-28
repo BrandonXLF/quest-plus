@@ -16,7 +16,9 @@
 }
 
 {
-	const scheduleToggle = document.querySelector<HTMLAnchorElement>('a[id*="DERIVED_REGFRM1_GROUP6"]');
+	const scheduleToggle = document.querySelector<HTMLAnchorElement>(
+		'a[id*="DERIVED_REGFRM1_GROUP6"]'
+	);
 
 	if (scheduleToggle?.getAttribute('aria-expanded') === 'false') {
 		scheduleToggle.click();

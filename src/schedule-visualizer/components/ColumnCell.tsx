@@ -15,7 +15,8 @@ export default function ColumnCell({ slot }: Readonly<{ slot: ScheduleSlot }>) {
 		const classType = slot.classSlots.every(
 			classSlot =>
 				classSlot.classInfo.initialType &&
-				classSlot.classInfo.initialType === slot.classSlots[0].classInfo.initialType
+				classSlot.classInfo.initialType ===
+					slot.classSlots[0].classInfo.initialType
 		)
 			? `${slot.classSlots[0].classInfo.initialType}`
 			: 'MULTI';
