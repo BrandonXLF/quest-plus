@@ -7,7 +7,6 @@
 }
 
 .schedule {
-	overscroll-behavior: none;
 	background: center / cover
 		url('chrome-extension://__MSG_@@extension_id__/assets/logo.svg');
 }
